@@ -63,10 +63,12 @@ def main():
     parser = argparse.ArgumentParser(description=f'Parse books and images from on-line library: {main_page_url}')
     parser.add_argument('--start_id',
                         default=1,
-                        type=int)
+                        type=int,
+                        help='Indicate the first book id to parse')
     parser.add_argument('--stop_id',
                         default=10,
-                        type=int)
+                        type=int,
+                        help='Indicate the last book id to parse')
     args = parser.parse_args()
     start_id = args.start_id
     stop_id = args.stop_id
