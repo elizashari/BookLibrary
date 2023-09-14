@@ -1,16 +1,16 @@
 import requests
 import os
 from requests.exceptions import HTTPError, Timeout
-from urllib.parse import unquote, urljoin, urlsplit,urlparse
+from urllib.parse import unquote, urljoin, urlsplit, urlparse
 from bs4 import BeautifulSoup
 import argparse
 import logging
+
 
 def check_for_redirect(response):
     main_page_url = 'https://tululu.org/'
     if response.url == main_page_url:
         raise HTTPError
-
 
 
 def download_txt(book_id, filename, folder='books/'):
@@ -23,7 +23,6 @@ def download_txt(book_id, filename, folder='books/'):
     check_for_redirect(response)
     with open(fullpath, 'wb') as file:
         file.write(response.content)
-
     return fullpath
 
 
