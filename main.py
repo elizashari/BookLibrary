@@ -1,10 +1,11 @@
 import requests
 import os
-from requests.exceptions import HTTPError, Timeout
-from urllib.parse import unquote, urljoin, urlsplit, urlparse
+from requests.exceptions import HTTPError, ConnectionError
+from urllib.parse import unquote, urljoin, urlparse
 from bs4 import BeautifulSoup
 import argparse
 import logging
+import time
 
 
 def check_for_redirect(response):
@@ -58,6 +59,7 @@ def parse_book_page(book_html):
 
 def main():
     main_page_url = 'https://tululu.org/'
+    delay = 5
 
 
     parser = argparse.ArgumentParser(description=f'Parse books and images from on-line library: {main_page_url}')
@@ -101,9 +103,12 @@ def main():
             print(f'Жанр: {geners}')
             print(f'Комментарии: {comments}')
             
-            
+        except ConnectionError:
+            logging.info(f'Connection error. Next connection attempt in {delay} seconds')
+            time.sleep(delay)    
         except HTTPError:
             logging.info(f'HTTP protocol error {book_page_url} is unavailable')
+
 
 
 if __name__ == '__main__':
